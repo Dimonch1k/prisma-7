@@ -1,0 +1,19 @@
+model Video {
+  id String @id @default(cuid())
+
+  title       String
+  description String?
+  views       Int     @default(0)
+
+  channelId String  @map("channel_id")
+  channel   Channel @relation(fields: [channelId], references: [id])
+
+  likes    Like[]
+  comments Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([channelId, views(sort: Desc)])
+  @@map("videos")
+}
